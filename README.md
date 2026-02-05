@@ -1,73 +1,54 @@
-# React + TypeScript + Vite
+# React + TypeScript SCADA Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small SCADA-style dashboard built with React, TypeScript, and Vite. It simulates live telemetry updates and derives an active alarm list from sensor status.
 
-Currently, two official plugins are available:
+Live demo: https://react-typescript-scada-dashboard.vercel.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What It Does
 
-## React Compiler
+- Displays a grid of sensors (ID, value, status)
+- Simulates telemetry changes every ~2 seconds
+- Derives alarms from any sensor in `WARNING` / `CRITICAL`
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Status thresholds (see `src/utils/evaluateStatus.ts`):
 
-## Expanding the ESLint configuration
+- `OK`: < 85
+- `WARNING`: 85-99
+- `CRITICAL`: >= 100
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React 19 + TypeScript
+- Vite (dev server + build)
+- ESLint (flat config)
+- Deployed on Vercel
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Prereqs: Node.js + npm
+
+```bash
+npm ci
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Build and preview locally:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
+npm run preview
 ```
+
+## Project Structure
+
+- `src/App.tsx` - initializes sensors, updates telemetry on an interval, computes alarms
+- `src/services/telemetryService.ts` - randomizes sensor values and re-evaluates status
+- `src/utils/evaluateStatus.ts` - status thresholds
+- `src/components/` - UI components (`SensorGrid`, `SensorCard`, `AlarmList`)
+- `src/models/` - TypeScript models (`Sensor`, `Alarm`, `Telemetry`)
+
+## Customize
+
+- Add/remove sensors: edit the initial `sensors` state in `src/App.tsx`
+- Change update rate: adjust the `setInterval` in `src/App.tsx`
+- Change thresholds: edit `src/utils/evaluateStatus.ts`
