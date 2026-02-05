@@ -4,6 +4,13 @@ A small SCADA-style dashboard built with React, TypeScript, and Vite. It simulat
 
 Live demo: https://react-typescript-scada-dashboard.vercel.app/
 
+## 🎯 Design Decisions
+
+- **No Redux**: State is localized and predictable; introducing global state would add unnecessary complexity.
+- **Derived alarms**: Alarm state is computed from sensor data rather than stored separately, reducing duplication and inconsistency.
+- **Typed contracts**: TypeScript interfaces define clear boundaries between telemetry, alarms, and UI components.
+- **Service isolation**: Telemetry update logic is kept out of UI components to keep rendering concerns simple.
+
 ## What It Does
 
 - Displays a grid of sensors (ID, value, status)
