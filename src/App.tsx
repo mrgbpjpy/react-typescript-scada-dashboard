@@ -48,6 +48,9 @@ const alarms: Alarm[] = sensors
   return (
     <div style={{ padding: 20 }}>
       <h2>SCADA Dashboard</h2>
+      <p style={{ color: '#666' }}>
+          Minimal React + TypeScript SCADA-style telemetry dashboard
+      </p>
       <SensorGrid sensors={sensors}/>
       <AlarmList alarms={alarms} />
     </div>
