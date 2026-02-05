@@ -4,16 +4,30 @@ import {SensorCard} from './components/Sensorcard'
 import './App.css'
 
 function App() {
-  const [sensor] = useState<Sensor>({
+  const [sensors] = useState<Sensor[]>([
+  {
     id: 'temp-1',
     value: 72,
-    status: 'OK'
-  })
+    status: 'OK',
+  },
+  {
+    id: 'pressure-1',
+    value: 88,
+    status: 'WARNING',
+  },
+  {
+    id: 'voltage-1',
+    value: 101,
+    status: 'CRITICAL',
+  },
+])
 
   return (
     <>
       <div style={{padding: '20'}}>
+        {sensors.map(sensor => (
         <SensorCard sensor={sensor} />
+        ))}    
       </div>
     </>
   )
